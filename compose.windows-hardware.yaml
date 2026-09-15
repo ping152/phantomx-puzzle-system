@@ -1,0 +1,10 @@
+services:
+  vision:
+    environment:
+      VISION_MODE: windows
+      VISION_SHOW_WINDOW: ${VISION_SHOW_WINDOW:-true}
+
+  controller:
+    devices:
+      - ${CM530_DEVICE:-/dev/ttyUSB0}:${CM530_CONTAINER_DEVICE:-/dev/ttyUSB0}
+

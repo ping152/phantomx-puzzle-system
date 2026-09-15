@@ -1,0 +1,11 @@
+.git
+.github
+.env
+build
+install
+log
+test-results
+docs
+**/__pycache__
+**/*.pyc
+

@@ -1,0 +1,24 @@
+schema: 1
+release: v0.1.0-rc1
+repositories:
+  vision:
+    url: https://github.com/ping152/puzzle-opencv-ros2.git
+    ref: v0.1.0-rc1
+    commit: 93af733f31b694cfc8d7de372fb61c50e815d61b
+  cm530:
+    url: https://github.com/ping152/phantomx-cm530-bridge.git
+    ref: v0.1.0-rc1
+    commit: f0ff2378f50ecc742ced99ef5d36fd5becc504bb
+  controller:
+    url: https://github.com/ping152/phantomx-puzzle-controller.git
+    ref: v0.1.0-rc1
+    commit: abd34a583740c95f7f750eec2b4448df722045f6
+  phantomx_pincher:
+    url: https://github.com/snt-spacer/phantomx_pincher.git
+    ref: ros2
+    snapshot_sha256: e5c43e3aa88d14b299550237ab8b9fd9dc6587c020d1067c17c99d9bade40df9
+    snapshot_note: source archive had no Git metadata; digest is the SHA-256 of git archive HEAD:components/phantomx_pincher
+images:
+  motion: ghcr.io/ping152/phantomx-puzzle-motion:v0.1.0-rc1
+  vision: ghcr.io/ping152/phantomx-puzzle-vision:v0.1.0-rc1
+  immutable_release_env: release.env

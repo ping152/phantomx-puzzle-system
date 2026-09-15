@@ -1,0 +1,93 @@
+name: ${COMPOSE_PROJECT_NAME:-phantomx-puzzle}
+
+x-ros-environment: &ros-environment
+  ROS_DOMAIN_ID: ${ROS_DOMAIN_ID:-31}
+  ROS_LOCALHOST_ONLY: "0"
+  ROS_DISCOVERY_SERVER: ${ROS_DISCOVERY_SERVER:-}
+  DISPLAY: ${DISPLAY:-:0}
+  QT_X11_NO_MITSHM: "1"
+
+x-motion: &motion
+  platform: ${DOCKER_PLATFORM:-linux/amd64}
+  image: ${MOTION_IMAGE:-ghcr.io/ping152/phantomx-puzzle-motion:v0.1.0-rc1}
+  build:
+    context: .
+    dockerfile: docker/motion.Dockerfile
+  network_mode: host
+  ipc: host
+  environment: *ros-environment
+  volumes:
+    - /tmp/.X11-unix:/tmp/.X11-unix:rw
+  stop_grace_period: 8s
+
+services:
+  moveit:
+    <<: *motion
+    profiles: [sim, hardware, test]
+    command: ["/opt/puzzle/bin/start-moveit.sh"]
+    environment:
+      <<: *ros-environment
+      ENABLE_RVIZ: ${ENABLE_RVIZ:-true}
+    healthcheck:
+      test: ["CMD-SHELL", "source /opt/ros/humble/setup.bash && source /opt/puzzle/ws/install/setup.bash && ros2 service list | grep -q /compute_ik"]
+      interval: 5s
+      timeout: 3s
+      retries: 24
+
+  vision:
+    platform: ${DOCKER_PLATFORM:-linux/amd64}
+    image: ${VISION_IMAGE:-ghcr.io/ping152/phantomx-puzzle-vision:v0.1.0-rc1}
+    build:
+      context: .
+      dockerfile: docker/vision.Dockerfile
+    profiles: [sim, hardware, test]
+    network_mode: host
+    environment:
+      <<: *ros-environment
+      VISION_MODE: ${VISION_MODE:-mock}
+      VISION_SHOW_WINDOW: ${VISION_SHOW_WINDOW:-true}
+      CAMERA_DEVICE: ${CAMERA_DEVICE:-/dev/video0}
+      CAMERA_DEVICE_ID: ${CAMERA_DEVICE_ID:-0}
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+    command: ["/opt/puzzle/bin/start-vision.sh"]
+    stop_grace_period: 5s
+
+  controller:
+    <<: *motion
+    profiles: [hardware]
+    stdin_open: true
+    tty: true
+    environment:
+      <<: *ros-environment
+      CM530_CONTAINER_DEVICE: ${CM530_CONTAINER_DEVICE:-/dev/ttyUSB0}
+      RVIZ_SYNC_ENABLED: ${RVIZ_SYNC_ENABLED:-true}
+    command: ["/opt/puzzle/bin/start-controller.sh"]
+
+  controller-tests:
+    <<: *motion
+    profiles: [test]
+    environment:
+      <<: *ros-environment
+    command:
+      - bash
+      - -lc
+      - python3 -m unittest discover -s /opt/puzzle/ws/src/ros2_main_control/test -v
+
+  multipoint-probe:
+    <<: *motion
+    profiles: [test]
+    depends_on:
+      moveit:
+        condition: service_healthy
+    environment:
+      <<: *ros-environment
+    command:
+      - bash
+      - -lc
+      - cd /opt/puzzle/ws/src/ros2_main_control/test && python3 moveit_multipoint_probe.py --limit 8
+
+  discovery-server:
+    <<: *motion
+    profiles: [discovery]
+    command: ["fastdds", "discovery", "--server-id", "0", "--ip-address", "0.0.0.0", "--port", "11811"]

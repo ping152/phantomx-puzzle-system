@@ -1,0 +1,13 @@
+.env
+release.env
+build/
+install/
+log/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.idea/
+.vscode/
+test-results/
+docs/qa-render/
+

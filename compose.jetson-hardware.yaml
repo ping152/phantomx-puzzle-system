@@ -1,0 +1,12 @@
+services:
+  vision:
+    environment:
+      VISION_MODE: jetson
+      VISION_SHOW_WINDOW: ${VISION_SHOW_WINDOW:-true}
+    devices:
+      - ${CAMERA_DEVICE:-/dev/video0}:${CAMERA_DEVICE:-/dev/video0}
+
+  controller:
+    devices:
+      - ${CM530_DEVICE:-/dev/ttyUSB0}:${CM530_CONTAINER_DEVICE:-/dev/ttyUSB0}
+
