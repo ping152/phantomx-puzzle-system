@@ -1,5 +1,5 @@
 schema: 1
-release: v0.1.0-rc1
+release: v0.1.0-rc2
 repositories:
   vision:
     url: https://github.com/ping152/puzzle-opencv-ros2.git
@@ -19,6 +19,6 @@ repositories:
     snapshot_sha256: e5c43e3aa88d14b299550237ab8b9fd9dc6587c020d1067c17c99d9bade40df9
     snapshot_note: source archive had no Git metadata; digest is the SHA-256 of git archive HEAD:components/phantomx_pincher
 images:
-  motion: ghcr.io/ping152/phantomx-puzzle-motion:v0.1.0-rc1
-  vision: ghcr.io/ping152/phantomx-puzzle-vision:v0.1.0-rc1
+  motion: ghcr.io/ping152/phantomx-puzzle-motion:v0.1.0-rc2
+  vision: ghcr.io/ping152/phantomx-puzzle-vision:v0.1.0-rc2
   immutable_release_env: release.env

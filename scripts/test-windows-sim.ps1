@@ -22,8 +22,8 @@ try {
     if (-not $SkipBuild) {
         docker compose --profile test build
         if ($LASTEXITCODE -ne 0) { throw "Image build failed." }
-        $motionImage = if ($env:MOTION_IMAGE) { $env:MOTION_IMAGE } else { "ghcr.io/ping152/phantomx-puzzle-motion:v0.1.0-rc1" }
-        $visionImage = if ($env:VISION_IMAGE) { $env:VISION_IMAGE } else { "ghcr.io/ping152/phantomx-puzzle-vision:v0.1.0-rc1" }
+        $motionImage = if ($env:MOTION_IMAGE) { $env:MOTION_IMAGE } else { "ghcr.io/ping152/phantomx-puzzle-motion:v0.1.0-rc2" }
+        $visionImage = if ($env:VISION_IMAGE) { $env:VISION_IMAGE } else { "ghcr.io/ping152/phantomx-puzzle-vision:v0.1.0-rc2" }
         $motionArch = docker image inspect $motionImage --format '{{.Architecture}}'
         $visionArch = docker image inspect $visionImage --format '{{.Architecture}}'
         if ($motionArch -ne "amd64" -or $visionArch -ne "amd64") {

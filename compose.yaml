@@ -9,7 +9,7 @@ x-ros-environment: &ros-environment
 
 x-motion: &motion
   platform: ${DOCKER_PLATFORM:-linux/amd64}
-  image: ${MOTION_IMAGE:-ghcr.io/ping152/phantomx-puzzle-motion:v0.1.0-rc1}
+  image: ${MOTION_IMAGE:-ghcr.io/ping152/phantomx-puzzle-motion:v0.1.0-rc2}
   build:
     context: .
     dockerfile: docker/motion.Dockerfile
@@ -36,7 +36,7 @@ services:
 
   vision:
     platform: ${DOCKER_PLATFORM:-linux/amd64}
-    image: ${VISION_IMAGE:-ghcr.io/ping152/phantomx-puzzle-vision:v0.1.0-rc1}
+    image: ${VISION_IMAGE:-ghcr.io/ping152/phantomx-puzzle-vision:v0.1.0-rc2}
     build:
       context: .
       dockerfile: docker/vision.Dockerfile

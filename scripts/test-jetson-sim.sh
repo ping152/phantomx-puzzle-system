@@ -18,8 +18,8 @@ trap cleanup EXIT
 
 docker compose --profile test build
 for image in \
-  "${MOTION_IMAGE:-ghcr.io/ping152/phantomx-puzzle-motion:v0.1.0-rc1}" \
-  "${VISION_IMAGE:-ghcr.io/ping152/phantomx-puzzle-vision:v0.1.0-rc1}"; do
+  "${MOTION_IMAGE:-ghcr.io/ping152/phantomx-puzzle-motion:v0.1.0-rc2}" \
+  "${VISION_IMAGE:-ghcr.io/ping152/phantomx-puzzle-vision:v0.1.0-rc2}"; do
   architecture="$(docker image inspect "${image}" --format '{{.Architecture}}')"
   [[ "${architecture}" == "arm64" ]] || {
     echo "Image is not linux/arm64: ${image} (${architecture})" >&2

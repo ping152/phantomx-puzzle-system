@@ -78,6 +78,17 @@ class RepositoryContractTest(unittest.TestCase):
         match = re.search(r"snapshot_sha256:\s*([0-9a-f]{64})", text)
         self.assertIsNotNone(match)
 
+    def test_multiarch_publish_uses_native_runners(self):
+        text = (ROOT / ".github/workflows/publish-images.yml").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("runner: ubuntu-22.04", text)
+        self.assertIn("runner: ubuntu-24.04-arm", text)
+        self.assertIn("platform: linux/amd64", text)
+        self.assertIn("platform: linux/arm64", text)
+        self.assertIn("docker buildx imagetools create", text)
+        self.assertNotIn("setup-qemu-action", text)
+
 
 if __name__ == "__main__":
     unittest.main()
