@@ -54,7 +54,9 @@ export HARDWARE_OWNER=jetson
 
 未設定、設定錯誤、serial 被占用、相機不存在，或未在提示中輸入 `HOME`，腳本都會停止。兩台電腦不可同時連接並控制同一支手臂。
 
-完整安裝、USB、DDS、RViz 與驗收流程請見 [Windows / Jetson 部署手冊](docs/DEPLOYMENT_WINDOWS_JETSON.md)。既有 `ROS2主控節點_完整操作手冊.*` 記錄 Galactic 開發與 79 項測試的歷史基準；正式部署以本文件與 Humble 手冊為準。
+第一次操作實機請先閱讀 [Galactic 與 Humble 雙版本實機測試新手手冊](docs/PhantomX雙版本實機測試_新手操作手冊.md)，依環境選擇 `mytest` Galactic 或 GitHub Humble 路線，不要混用指令。
+
+完整安裝、USB、DDS、RViz 與驗收細節請見 [Windows / Jetson 部署手冊](docs/DEPLOYMENT_WINDOWS_JETSON.md)。既有 `ROS2主控節點_完整操作手冊.*` 記錄 Galactic 開發與 79 項測試的歷史基準；正式部署以本文件與 Humble 手冊為準。
 
 ## Current Scope
 
